@@ -40,3 +40,4 @@ ECHO:
 
 clean:
 	@rm -rf $(BUILD_DIR)/*
+	@for n in $(SUBDIRS); do $(MAKE) -C $$n clean; done

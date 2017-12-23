@@ -8,3 +8,6 @@ $(CUR_OBJS):%.o:%.c
 	$(CC) -c $^ -o $(ROOT_DIR)/$(OBJS_DIR)/$@
 ECHO:
 	@echo $(SUBDIRS)
+
+clean:
+	@for n in $(SUBDIRS); do $(MAKE) -C $$n clean; done
