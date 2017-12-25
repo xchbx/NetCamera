@@ -6,8 +6,11 @@ ROOT_DIR=$(shell pwd)/
 
 LIB=$(ROOT_DIR)/middleware/librtmp/
 SRC_DIR=$(ROOT_DIR)/project
-INCLUDES += -I $(SRC_DIR) \
-	-I $(ROOT_DIR)/middleware/librtmp/
+INCLUDES += -I $(SRC_DIR)/inc/ \
+	-I $(ROOT_DIR)/middleware/librtmp/ \
+	-I $(SRC_DIR)/inc/messageQueue \
+	-I $(SRC_DIR)/inc/taskCommon \
+	-I $(SRC_DIR)/inc/taskMain
 SUBDIRS=middleware project
 
 TARGET=fox
@@ -22,7 +25,7 @@ export CC LDFLAGS LIB BIN OBJ_DIR BIN_DIR ROOT_DIR INCLUDES
 all:cmd $(SUBDIRS) $(OBJ) ${TARGET}
 
 cmd:
-	@mkdir -p $(BUILD_DIR) $(OBJ_DIR)	
+	@mkdir -p $(BUILD_DIR) $(OBJ_DIR)
 
 test:
 	@echo $(SRC)
