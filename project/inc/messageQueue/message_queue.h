@@ -53,8 +53,8 @@ int QueueDeInit(void);
 int QueueCreate(char* pathName,int queueIdx);
 int LinkListInsert(struct QueueList_t * listx, QueueHandle_t queue_id);
 int LinkListDelete(struct QueueList_t * listx, QueueHandle_t queue_id);
-int QueueLock();
-int QueueUnlock();
+void QueueLock();
+void QueueUnlock();
 /****************************************************************************
  * Public API
  ****************************************************************************/

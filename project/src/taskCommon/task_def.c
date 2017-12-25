@@ -7,9 +7,9 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <sys/prctl.h>
 #include <pthread.h>
 #include <errno.h>
+#include "main.h"
 #include "task_def.h"
 
 /****************************************************************************
@@ -24,6 +24,14 @@ typedef struct tasks_list_ {
     void*               pParameters;
     uint32_t            u32StackSize;
 } tasks_list_t;
+
+
+typedef struct _thread_param_info_
+{
+    TaskFunction_t start_routine;
+    void *arg;
+    char pthreadname[32];
+}thread_param_info;
 
 /****************************************************************************
  * Forward Declarations.
@@ -42,7 +50,7 @@ static TaskHandle_t     task_handles[tasks_list_count];
 /****************************************************************************
  * Private Functions
  ****************************************************************************/
-int xTaskCreate(pthread_t *thread, void *(*start_routine) (void *), void *arg, const char* pthreadname, int stacksz)
+int xTaskCreate(pthread_t *thread, TaskFunction_t start_routine, void *arg, const char* pthreadname, int stacksz)
 {
     if (start_routine == NULL)
     {
@@ -54,7 +62,7 @@ int xTaskCreate(pthread_t *thread, void *(*start_routine) (void *), void *arg, c
     int stacksize = stacksz;
     pthread_attr_t attr;
     if (stacksize == 0)
-        stacksize = DEFAUT_STACK_SZ;
+        stacksize = 32*1024;
     retval = pthread_attr_init(&attr);
     if (retval != 0)
     {
@@ -89,7 +97,7 @@ int xTaskCreate(pthread_t *thread, void *(*start_routine) (void *), void *arg, c
     }
 
     pthread_t thread_id;
-    retval = pthread_create(&thread_id, &attr, thread_start, (void*)param);
+    retval = pthread_create(&thread_id, &attr, start_routine, (void*)param);
     if (retval != 0)
     {
         DEBUG( "commcreatethread call pthread_create retval=%d errno=%d", retval, errno);
@@ -111,7 +119,7 @@ int xTaskCreate(pthread_t *thread, void *(*start_routine) (void *), void *arg, c
 void task_def_init(void)
 {
     uint16_t            i;
-    BaseType_t          x;
+    int32_t             x;
     const tasks_list_t  *t;
 
     for (i = 0; i < tasks_list_count; i++) {
@@ -123,7 +131,7 @@ void task_def_init(void)
                         t->pTask,
                         t->pParameters,
                         t->ps8Name,
-                        t->u32StackSize,
+                        t->u32StackSize
                         );
 
         if (x != 0) {

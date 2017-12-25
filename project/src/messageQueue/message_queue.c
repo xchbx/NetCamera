@@ -7,17 +7,18 @@
 
 #include "message.h"
 #include "message_queue.h"
+#include "main.h"
 
 #define	MSG_KEY_PATH	"/tmp"
 
 
 
-int QueueLock()
+void QueueLock()
 {
     pthread_mutex_lock(&lock);
 }
 
-int QueueUnlock()
+void QueueUnlock()
 {
     pthread_mutex_unlock(&lock);
 }
@@ -101,17 +102,6 @@ QueueHandle_t QueueGetId(QueueHandle_t queue_id)
     }
 }
 
-MessageQueue* GetQueueInstance()
-{
-    static MessageQueue* QueueInstance = NULL;
-    if (QueueInstance == NULL)
-    {
-        QueueInstance = new MessageQueue();
-        QueueInstance->QueueInit();
-    }
-    return QueueInstance;
-}
-
 /******************************************************************************/
 /** malloc a new queue node and insert it to the QueueList_t
  *
@@ -155,7 +145,7 @@ int LinkListInsert(struct QueueList_t * listx, QueueHandle_t queue_id)
 
     if(!exist)
     {
-        cur_node = new QueueLinkNode;
+        cur_node = (struct QueueLinkNode *)malloc(sizeof(struct QueueLinkNode));
 
         if(NULL == cur_node)
         {
@@ -231,7 +221,10 @@ int LinkListDelete(struct QueueList_t * listx, QueueHandle_t queue_id)
             prv_node->next_queue = cur_node->next_queue;
         }
 
-        delete(cur_node);
+        if(cur_node != NULL)
+        {
+            free(cur_node);
+        }
 
         return 1;
     }
@@ -268,7 +261,7 @@ int MessageQueueRegister(int msg, QueueHandle_t queue_idx)
         if(NULL == Queuelist[msg].queue)
         {
 
-            new_node = new QueueLinkNode;
+            new_node =(struct QueueLinkNode *)malloc(sizeof(struct QueueLinkNode));
 
             if(NULL == new_node)
             {
@@ -422,7 +415,7 @@ int MessageSend(int send_msg, void * para_pointer, uint32_t para_length, uint32_
         /* package message data */
         if( MESSAGE_IS_POINTER == pointer_or_value )/* deliver pointer */
         {
-            message.parameter.pointer =new char[para_length];
+            message.parameter.pointer =(char * )malloc(para_length * sizeof(char));
 
             if(NULL == message.parameter.pointer)
             {
@@ -512,11 +505,11 @@ int MessageRecv(QueueHandle_t queue_idx, int * const received_msg, void * receiv
             {
                 memcpy((uint8_t *)received_msg_data, (uint8_t *)message.parameter.pointer, (message.msg_type & 0x0000FFFF) );
 
-                delete( message.parameter.pointer );/* release the pointer */
+                free( message.parameter.pointer );/* release the pointer */
             }
             else
             {
-                delete( message.parameter.pointer );/* release the pointer */
+                free( message.parameter.pointer );/* release the pointer */
                 return -1;
             }
         }

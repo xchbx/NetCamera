@@ -5,7 +5,7 @@ LDFLAGS=-lpthread -lrtmp
 ROOT_DIR=$(shell pwd)/
 
 LIB=$(ROOT_DIR)/middleware/librtmp/
-SRC_DIR=$(ROOT_DIR)/project
+SRC_DIR=$(ROOT_DIR)/project/
 INCLUDES += -I $(SRC_DIR)/inc/ \
 	-I $(ROOT_DIR)/middleware/librtmp/ \
 	-I $(SRC_DIR)/inc/messageQueue \
@@ -15,10 +15,14 @@ SUBDIRS=middleware project
 
 TARGET=fox
 BUILD_DIR=$(ROOT_DIR)/build
-OBJ_DIR=$(BUILD_DIR)/obj
+OBJ_DIR=$(BUILD_DIR)/obj/
 
-SRC=${wildcard ${SRC_DIR}/*.c}
-OBJ=${patsubst %.c, $(OBJ_DIR)/%.o, ${notdir ${SRC}}}
+DIRS=$(shell find $(SRC_DIR) -maxdepth 3 -type d)
+FILES=$(foreach dir,$(DIRS),$(wildcard $(dir)/*.c))
+FILER=$(notdir $(FILES))
+OBJS=$(patsubst %.c,%.o, $(FILER))
+CUR_OBJS=$(foreach X,$(OBJS),$(OBJ_DIR)/$(X))
+
 export CC LDFLAGS LIB BIN OBJ_DIR BIN_DIR ROOT_DIR INCLUDES
 #@@@=====================================================================
 
@@ -28,11 +32,12 @@ cmd:
 	@mkdir -p $(BUILD_DIR) $(OBJ_DIR)
 
 test:
-	@echo $(SRC)
-	@echo $(OBJ)
+	@echo $(CUR_OBJS)
+	@echo $(OBJS)
+	@echo $(FILER)
 
-${TARGET}: ${OBJ}
-	@${CC} ${OBJ} -o $(BUILD_DIR)/$@ $(LDFLAGS) $(INCLUDES) -L$(LIB)
+${TARGET}: ${CUR_OBJS}
+	@${CC} -o $(BUILD_DIR)/$@ $(CUR_OBJS) $(LDFLAGS) $(INCLUDES) -L$(LIB)
 	@echo "Compile done."
 
 $(SUBDIRS):ECHO

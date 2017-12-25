@@ -9,6 +9,7 @@ $(CUR_OBJS):%.o:%.c
 	@$(CC) -c $^ -o $(OBJ_DIR)/$@ $(INCLUDES)
 ECHO:
 	@echo $(SUBDIRS)
+	@echo $(INCLUDES)
 
 clean:
 	rm -rf *.o
