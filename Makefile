@@ -37,7 +37,7 @@ test:
 	@echo $(FILER)
 
 ${TARGET}: ${CUR_OBJS}
-	@${CC} -o $(BUILD_DIR)/$@ $(CUR_OBJS) $(LDFLAGS) $(INCLUDES) -L$(LIB)
+	@${CC} -o $(BUILD_DIR)/$@ $^ $(LDFLAGS) $(INCLUDES) -L$(LIB)
 	@echo "Compile done."
 
 $(SUBDIRS):ECHO
