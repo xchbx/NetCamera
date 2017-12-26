@@ -15,7 +15,7 @@
 /****************************************************************************
  * Types.
  ****************************************************************************/
-typedef void (*TaskFunction_t)( void * );
+typedef void* (*TaskFunction_t)( void * );
 typedef pthread_t TaskHandle_t;
 
 typedef struct tasks_list_ {
@@ -36,7 +36,7 @@ typedef struct _thread_param_info_
 /****************************************************************************
  * Forward Declarations.
  ****************************************************************************/
-extern void TaskDemo(void * arg);
+extern void* TaskDemo(void * arg);
 
 
 static const tasks_list_t tasks_list[] = {
@@ -97,7 +97,7 @@ int xTaskCreate(pthread_t *thread, TaskFunction_t start_routine, void *arg, cons
     }
 
     pthread_t thread_id;
-    retval = pthread_create(&thread_id, &attr, start_routine, (void*)param);
+    retval = pthread_create(&thread_id, &attr, (*start_routine), (void*)param);
     if (retval != 0)
     {
         DEBUG( "commcreatethread call pthread_create retval=%d errno=%d", retval, errno);

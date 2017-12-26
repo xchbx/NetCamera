@@ -6,7 +6,7 @@
 #include "message_queue.h"
 #include "main.h"
 
-void TaskDemo(void * arg)
+void* TaskDemo(void * arg)
 {
     int u32Cnt = 0;
     while(1)
