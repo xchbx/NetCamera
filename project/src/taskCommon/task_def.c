@@ -36,11 +36,13 @@ typedef struct _thread_param_info_
 /****************************************************************************
  * Forward Declarations.
  ****************************************************************************/
-extern void* TaskDemo(void * arg);
+extern void* TaskSender(void * arg);
+extern void* TaskRecver(void * arg);
 
 
 static const tasks_list_t tasks_list[] = {
-	{ TaskDemo,    "TASK_DEMO",     NULL,   256*1024},
+	{ TaskSender,    "TASK_SENDER",     NULL,   128*1024},
+    { TaskRecver,    "TASK_RECVER",     NULL,   128*1024},
 };
 
 #define tasks_list_count  (sizeof(tasks_list) / sizeof(tasks_list_t))

@@ -14,8 +14,13 @@ extern "C" {
     typedef enum
     {
         MSG_TYPE_NULL = 0,
-        MSG_TYPE_WAKEUP,
-        MSG_TYPE_VOICE,
+        MSG_TEST_0,
+        MSG_TEST_1,
+        MSG_TEST_2,
+        MSG_TEST_3,
+        MSG_TEST_4,
+        MSG_TEST_5,
+        MSG_TEST_6,
         MSG_TYPE_END /** max message count */
     } MESSAGE_E;
 
