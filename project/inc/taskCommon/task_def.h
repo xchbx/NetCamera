@@ -7,7 +7,7 @@ extern "C" {
 
 
 /* part_1: SDK tasks configure infomation, please don't modify */
-
+#define TASK_STACK_SIZE_DFT				(32*1024)
 
 /*****************************************************************************
  * API Functions

@@ -52,64 +52,64 @@ static TaskHandle_t     task_handles[tasks_list_count];
 /****************************************************************************
  * Private Functions
  ****************************************************************************/
-int xTaskCreate(pthread_t *thread, TaskFunction_t start_routine, void *arg, const char* pthreadname, int stacksz)
+int xTaskCreate(pthread_t *pThreadId, TaskFunction_t fTaskFunc, void *pParameters, const char* pThreadName, int s32StackSize)
 {
-    if (start_routine == NULL)
+    if (fTaskFunc == NULL)
     {
-        DEBUG("commcreatethread start_routine == NULL");
         return -1;
     }
 
-    int retval;
-    int stacksize = stacksz;
+    int s32Ret;
+    int s32LocalSackSize = s32StackSize;
     pthread_attr_t attr;
-    if (stacksize == 0)
-        stacksize = 32*1024;
-    retval = pthread_attr_init(&attr);
-    if (retval != 0)
+    if (s32LocalSackSize == 0)
+        s32LocalSackSize = 32*1024;
+    s32Ret = pthread_attr_init(&attr);
+    if (s32Ret != 0)
     {
-        DEBUG("commcreatethread call pthread_attr_init retval = %d errno=%d", retval, errno);
-        return -1;
-    }
-    retval = pthread_attr_setstacksize(&attr, stacksize);
-    if (retval != 0)
-    {
-        DEBUG("commcreatethread call pthread_attr_setstacksize retval = %d errno=%d", retval, errno);
+        DEBUG("commcreatethread call pthread_attr_init s32Ret = %d errno=%d", s32Ret, errno);
         return -1;
     }
 
-    int cbparam = sizeof(thread_param_info);
-    int cbthreadname = (pthreadname != NULL) ? (strlen(pthreadname) + 1) : 0;
-    cbparam += cbthreadname;
-    thread_param_info* param = (thread_param_info*)malloc(cbparam);
-    if (param == NULL)
+    s32Ret = pthread_attr_setstacksize(&attr, s32LocalSackSize);
+    if (s32Ret != 0)
+    {
+        DEBUG("commcreatethread call pthread_attr_setstacksize s32Ret = %d errno=%d", s32Ret, errno);
+        return -1;
+    }
+
+    int s32ParamLen = sizeof(thread_param_info);
+    int s32ThreadNameLen = (pThreadName != NULL) ? (strlen(pThreadName) + 1) : 0;
+    s32ParamLen += s32ThreadNameLen;
+    thread_param_info* pThreadParamInfo = (thread_param_info*)malloc(s32ParamLen);
+    if (pThreadParamInfo == NULL)
     {
         DEBUG("commcreatethread call malloc == NULL");
         return -1;
     }
-    param->start_routine = start_routine;
-    param->arg = arg;
-    if (pthreadname != NULL && pthreadname[0] != '\0')
+    pThreadParamInfo->start_routine = fTaskFunc;
+    pThreadParamInfo->arg = pParameters;
+    if (pThreadName != NULL && pThreadName[0] != '\0')
     {
-        strcpy(param->pthreadname, pthreadname);
+        strcpy(pThreadParamInfo->pthreadname, pThreadName);
     }
     else
     {
-        param->pthreadname[0] = '\0';
+        pThreadParamInfo->pthreadname[0] = '\0';
     }
 
     pthread_t thread_id;
-    retval = pthread_create(&thread_id, &attr, (*start_routine), (void*)param);
-    if (retval != 0)
+    s32Ret = pthread_create(&thread_id, &attr, (*fTaskFunc), (void*)pThreadParamInfo);
+    if (s32Ret != 0)
     {
-        DEBUG( "commcreatethread call pthread_create retval=%d errno=%d", retval, errno);
+        DEBUG( "commcreatethread call pthread_create s32Ret=%d errno=%d", s32Ret, errno);
         return -1;
     }
 
     pthread_attr_destroy(&attr);
-    if (thread != NULL)
+    if (pThreadId != NULL)
     {
-        *thread = thread_id;
+        *pThreadId = thread_id;
     }
     return 0;
 }
