@@ -41,6 +41,8 @@ void QueueUnlock()
 int QueueInit(void)
 {
     int msgIdx;
+    
+	pthread_mutex_init (&lock, NULL);
 
     for(msgIdx = 0; msgIdx < MSG_TYPE_END; msgIdx++)
     {

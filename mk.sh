@@ -1,4 +1,4 @@
 #!/bin/sh
 
-cp -rf /mnt/hgfs/share/test/fox/* ./
+cp -rf build/fox /mnt/hgfs/share/000public/
 make

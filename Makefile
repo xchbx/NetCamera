@@ -1,7 +1,8 @@
 #@@@=====================================================================
-CC=gcc
+#CC=gcc
+CC=mips-linux-uclibc-gnu-gcc
 CFLAGS=
-LDFLAGS=-lpthread -lrtmp
+LDFLAGS=-lpthread
 ROOT_DIR=$(shell pwd)/
 
 LIB=$(ROOT_DIR)/middleware/librtmp/
