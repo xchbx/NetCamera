@@ -1,6 +1,6 @@
 #@@@=====================================================================
-#CC=gcc
-CC=mips-linux-uclibc-gnu-gcc
+CC=gcc
+#CC=mips-linux-uclibc-gnu-gcc
 CFLAGS=
 LDFLAGS=-lpthread
 ROOT_DIR=$(shell pwd)/
