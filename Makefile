@@ -2,13 +2,16 @@
 CC=gcc
 #CC=mips-linux-uclibc-gnu-gcc
 CFLAGS=
-LDFLAGS=-lpthread
+LDFLAGS=-lpthread -lrtmp
 ROOT_DIR=$(shell pwd)/
 
-LIB=$(ROOT_DIR)/middleware/librtmp/
+LIB =-L$(ROOT_DIR)/middleware/librtmp/ \
+	$(ROOT_DIR)/middleware/elog/libelog.a
+
 SRC_DIR=$(ROOT_DIR)/project/
 INCLUDES += -I $(SRC_DIR)/inc/ \
 	-I $(ROOT_DIR)/middleware/librtmp/ \
+	-I $(ROOT_DIR)/middleware/elog/ \
 	-I $(SRC_DIR)/inc/messageQueue \
 	-I $(SRC_DIR)/inc/taskCommon \
 	-I $(SRC_DIR)/inc/taskMain
@@ -38,7 +41,7 @@ test:
 	@echo $(FILER)
 
 ${TARGET}: ${CUR_OBJS}
-	@${CC} -o $(BUILD_DIR)/$@ $^ $(LDFLAGS) $(INCLUDES) -L$(LIB)
+	@${CC} -o $(BUILD_DIR)/$@ $^ $(LDFLAGS) $(INCLUDES) $(LIB)
 	@echo "Compile done."
 
 $(SUBDIRS):ECHO
