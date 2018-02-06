@@ -1,8 +1,11 @@
 #@@@=====================================================================
-CC=gcc
-#CC=mips-linux-uclibc-gnu-gcc
+#CC=gcc
+CC=mips-linux-uclibc-gnu-gcc
+AR=mips-linux-uclibc-gnu-ar
+LD=mips-linux-uclibc-gnu-ld
+
 CFLAGS=
-LDFLAGS=-lpthread -lrtmp
+LDFLAGS=-lpthread
 ROOT_DIR=$(shell pwd)/
 
 LIB =-L$(ROOT_DIR)/middleware/librtmp/ \
@@ -27,7 +30,7 @@ FILER=$(notdir $(FILES))
 OBJS=$(patsubst %.c,%.o, $(FILER))
 CUR_OBJS=$(foreach X,$(OBJS),$(OBJ_DIR)/$(X))
 
-export CC LDFLAGS LIB BIN OBJ_DIR BIN_DIR ROOT_DIR INCLUDES
+export CC AR LD LDFLAGS LIB BIN OBJ_DIR BIN_DIR ROOT_DIR INCLUDES
 #@@@=====================================================================
 
 all:cmd $(SUBDIRS) $(OBJ) ${TARGET}

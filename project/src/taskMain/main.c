@@ -11,6 +11,8 @@
 #include "message_queue.h"
 #include "elog.h"
 
+#define LOG_TAG    "TASKMAINFUNCTION"
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -59,7 +61,13 @@ int main(void)
     /* Start the scheduler. */
     while(1)
     {
-        usleep(3*1000*1000);   
+        usleep(3*1000*1000);
+	log_a("Hello EasyLogger!");
+	log_e("Hello EasyLogger!");
+	log_w("Hello EasyLogger!");
+	log_i("Hello EasyLogger!");
+	log_d("Hello EasyLogger!");
+	log_v("Hello EasyLogger!");   
     }
 }
 

@@ -3,9 +3,9 @@ prefix=
 XLDFLAGS=
 INC=
 
-CC=gcc
-LD=ld
-AR=ar
+#CC=gcc
+#LD=ld
+#AR=ar
 
 
 DEF=-DRTMPDUMP_VERSION=\"$(VERSION)\"

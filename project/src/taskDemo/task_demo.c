@@ -5,7 +5,9 @@
 #include <string.h>
 #include "message_queue.h"
 #include "main.h"
+#include "elog.h"
 
+#define LOG_TAG    "TASKDEMO"
 #if 0
 void* TaskDemo(void * arg)
 {
@@ -83,7 +85,12 @@ void* TaskRecver(void * arg)
             		p = (int *)msg_data;
             		DEBUG("-----------------recv msg = %d \r\n", msg);
             		DEBUG("TaskRecver<==============recv message=[%p] %x,%x,%x,%x\r\n",p, p[0],p[1],p[2],p[3]);
-
+					log_a("Hello EasyLogger!");
+					log_e("Hello EasyLogger!");
+					log_w("Hello EasyLogger!");
+					log_i("Hello EasyLogger!");
+					log_d("Hello EasyLogger!");
+					log_v("Hello EasyLogger!");
                     break;
                 }
 
