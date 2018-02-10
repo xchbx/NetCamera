@@ -11,7 +11,7 @@
 #include "message_queue.h"
 #include "elog.h"
 
-#define LOG_TAG    "TASKMAINFUNCTION"
+#define LOG_TAG    "TASKMAIN"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -62,12 +62,12 @@ int main(void)
     while(1)
     {
         usleep(3*1000*1000);
-	log_a("Hello EasyLogger!");
-	log_e("Hello EasyLogger!");
-	log_w("Hello EasyLogger!");
-	log_i("Hello EasyLogger!");
-	log_d("Hello EasyLogger!");
-	log_v("Hello EasyLogger!");   
+        log_a("Hello EasyLogger!");
+        log_e("Hello EasyLogger!");
+        log_w("Hello EasyLogger!");
+        log_i("Hello EasyLogger!");
+        log_d("Hello EasyLogger!");
+        log_v("Hello EasyLogger!");   
     }
 }
 

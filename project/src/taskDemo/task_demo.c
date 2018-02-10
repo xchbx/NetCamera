@@ -83,14 +83,8 @@ void* TaskRecver(void * arg)
                 {
                 	int * p;
             		p = (int *)msg_data;
-            		DEBUG("-----------------recv msg = %d \r\n", msg);
-            		DEBUG("TaskRecver<==============recv message=[%p] %x,%x,%x,%x\r\n",p, p[0],p[1],p[2],p[3]);
-					log_a("Hello EasyLogger!");
-					log_e("Hello EasyLogger!");
-					log_w("Hello EasyLogger!");
-					log_i("Hello EasyLogger!");
-					log_d("Hello EasyLogger!");
-					log_v("Hello EasyLogger!");
+            		log_d("-----------------recv msg = %d \r\n", msg);
+            		log_e("TaskRecver<==============recv message=[%p] %x,%x,%x,%x\r\n",p, p[0],p[1],p[2],p[3]);
                     break;
                 }
 

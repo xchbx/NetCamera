@@ -1,8 +1,11 @@
 #@@@=====================================================================
-#CC=gcc
-CC=mips-linux-uclibc-gnu-gcc
-AR=mips-linux-uclibc-gnu-ar
-LD=mips-linux-uclibc-gnu-ld
+#CC=mips-linux-uclibc-gnu-gcc
+#AR=mips-linux-uclibc-gnu-ar
+#LD=mips-linux-uclibc-gnu-ld
+
+CC=gcc
+AR=ar
+LD=ld
 
 CFLAGS=
 LDFLAGS=-lpthread

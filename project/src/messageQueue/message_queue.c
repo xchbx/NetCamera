@@ -8,9 +8,10 @@
 #include "message.h"
 #include "message_queue.h"
 #include "main.h"
+#include "elog.h"
 
 #define	MSG_KEY_PATH	"/tmp"
-
+#define LOG_TAG    "MSGQUEUE"
 
 
 void QueueLock()
@@ -81,7 +82,7 @@ int QueueCreate(char* pathName,int queueIdx)
         nQueueID = msgget(m_MsgKey[queueIdx], IPC_CREAT|0666);
         if(-1 == msgctl(nQueueID, IPC_RMID, NULL) )
         {
-            DEBUG("MessageQueue::QueueCreate msgctl IPC_RMID nQueueID = [%d]  failed:%s",nQueueID,strerror(errno));
+            log_e("MessageQueue::QueueCreate msgctl IPC_RMID nQueueID = [%d]  failed:%s",nQueueID,strerror(errno));
         }
 
         nQueueID = 0;
@@ -253,7 +254,7 @@ int LinkListDelete(struct QueueList_t * listx, QueueHandle_t queue_id)
     *******************************************************************************/
 int MessageQueueRegister(int msg, QueueHandle_t queue_idx)
 {
-    DEBUG("START");
+    log_d("START");
     struct QueueLinkNode * new_node;
 
     if(msg < MSG_TYPE_END)
@@ -306,7 +307,7 @@ int MessageQueueRegister(int msg, QueueHandle_t queue_idx)
         printf("===============================================================================\n");
 #endif
         ////////////////////////////////////////////////////////////////////////////////
-        DEBUG("END");
+        log_d("END");
         return 1;
     }
     return -1;
@@ -333,7 +334,7 @@ int MessageQueueUnregister(int msg, QueueHandle_t queue_idx)
 {
     /* you can delete msg-queue-map directly, but make sure the queue be empty before delete task !!! */
 
-    DEBUG("START");
+    log_d("START");
     int v;
 
     QueueLock();
@@ -368,7 +369,7 @@ int MessageQueueUnregister(int msg, QueueHandle_t queue_idx)
     printf("===============================================================================\n");
 #endif
     ////////////////////////////////////////////////////////////////////////////////
-    DEBUG("END");
+    log_d("END");
     return v;
 }
 
@@ -442,7 +443,7 @@ int MessageSend(int send_msg, void * para_pointer, uint32_t para_length, uint32_
         send_result = msgsnd(queue_root->queue_id, &message, para_length+sizeof(long), 0);
         if( -1 == send_result )
         {
-            DEBUG("msgsnd ERROR %s", strerror(errno));
+            log_e("msgsnd ERROR %s", strerror(errno));
             return -1;
         }
         queue_root = queue_root->next_queue; /* next queue */
@@ -485,7 +486,7 @@ int MessageRecv(QueueHandle_t queue_idx, int * const received_msg, void * receiv
     int nResult = msgrcv(m_MsgQueueID[queue_idx],&buf,MESSAGE_MAX_LENGTH,0,0);
     if( -1 == nResult)
     {
-        DEBUG("msgrcv ERROR %s", strerror(errno));
+        log_e("msgrcv ERROR %s", strerror(errno));
     }
 
     uint8_t * p;

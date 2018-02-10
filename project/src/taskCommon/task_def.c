@@ -11,6 +11,9 @@
 #include <errno.h>
 #include "main.h"
 #include "task_def.h"
+#include "elog.h"
+
+#define LOG_TAG    "TASKDEF"
 
 /****************************************************************************
  * Types.
@@ -67,14 +70,14 @@ int xTaskCreate(pthread_t *pThreadId, TaskFunction_t fTaskFunc, void *pParameter
     s32Ret = pthread_attr_init(&attr);
     if (s32Ret != 0)
     {
-        DEBUG("pthread_attr_init s32Ret = %d errno=%d", s32Ret, errno);
+        log_e("pthread_attr_init s32Ret = %d errno=%d", s32Ret, errno);
         return -1;
     }
 
     s32Ret = pthread_attr_setstacksize(&attr, s32LocalSackSize);
     if (s32Ret != 0)
     {
-        DEBUG("pthread_attr_setstacksize s32Ret = %d errno=%d", s32Ret, errno);
+        log_e("pthread_attr_setstacksize s32Ret = %d errno=%d", s32Ret, errno);
         return -1;
     }
 
@@ -84,7 +87,7 @@ int xTaskCreate(pthread_t *pThreadId, TaskFunction_t fTaskFunc, void *pParameter
     thread_param_info* pThreadParamInfo = (thread_param_info*)malloc(s32ParamLen);
     if (pThreadParamInfo == NULL)
     {
-        DEBUG("malloc == NULL");
+        log_e("malloc == NULL");
         return -1;
     }
     pThreadParamInfo->start_routine = fTaskFunc;
@@ -102,7 +105,7 @@ int xTaskCreate(pthread_t *pThreadId, TaskFunction_t fTaskFunc, void *pParameter
     s32Ret = pthread_create(&thread_id, &attr, (*fTaskFunc), (void*)pThreadParamInfo);
     if (s32Ret != 0)
     {
-        DEBUG( "pthread_create s32Ret=%d errno=%d", s32Ret, errno);
+        log_e( "pthread_create s32Ret=%d errno=%d", s32Ret, errno);
         return -1;
     }
 
@@ -127,7 +130,7 @@ void task_def_init(void)
     for (i = 0; i < tasks_list_count; i++) {
         t = &tasks_list[i];
 
-        DEBUG("xCreate task %s, u32StackSize %d", t->ps8Name, (int)t->u32StackSize);
+        log_i("xCreate task %s, u32StackSize %d", t->ps8Name, (int)t->u32StackSize);
 
         x = xTaskCreate(&task_handles[i],
                         t->pTask,
@@ -137,9 +140,9 @@ void task_def_init(void)
                         );
 
         if (x != 0) {
-            DEBUG(":task_def_init failed");
+            log_e(":task_def_init failed");
         } else {
-            DEBUG(":task_def_init succeeded");
+            log_i(":task_def_init succeeded");
         }
     }
 }
