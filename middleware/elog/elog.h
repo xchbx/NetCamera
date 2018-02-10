@@ -194,9 +194,11 @@ const char *elog_find_tag(const char *log, uint8_t lvl, size_t *tag_len);
  * log API short definition
  * NOTE: The `LOG_TAG` and `LOG_LVL` must defined before including the <elog.h> when you want to use log_x API.
  */
+ /**
 #if !defined(LOG_TAG)
     #define LOG_TAG          "NO_TAG"
 #endif
+*/
 #if !defined(LOG_LVL)
     #define LOG_LVL          ELOG_LVL_VERBOSE
 #endif

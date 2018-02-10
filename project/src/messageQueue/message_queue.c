@@ -254,7 +254,6 @@ int LinkListDelete(struct QueueList_t * listx, QueueHandle_t queue_id)
     *******************************************************************************/
 int MessageQueueRegister(int msg, QueueHandle_t queue_idx)
 {
-    log_d("START");
     struct QueueLinkNode * new_node;
 
     if(msg < MSG_TYPE_END)
@@ -307,7 +306,7 @@ int MessageQueueRegister(int msg, QueueHandle_t queue_idx)
         printf("===============================================================================\n");
 #endif
         ////////////////////////////////////////////////////////////////////////////////
-        log_d("END");
+        log_i("MessageQueueRegister msg=%d,queue_idx=%d",msg,queue_idx);
         return 1;
     }
     return -1;
@@ -334,7 +333,6 @@ int MessageQueueUnregister(int msg, QueueHandle_t queue_idx)
 {
     /* you can delete msg-queue-map directly, but make sure the queue be empty before delete task !!! */
 
-    log_d("START");
     int v;
 
     QueueLock();
@@ -369,7 +367,7 @@ int MessageQueueUnregister(int msg, QueueHandle_t queue_idx)
     printf("===============================================================================\n");
 #endif
     ////////////////////////////////////////////////////////////////////////////////
-    log_d("END");
+    log_i("MessageQueueUnregister msg=%d,queue_idx=%d",msg,queue_idx);
     return v;
 }
 
