@@ -1,22 +1,19 @@
 #@@@=====================================================================
-CC=mips-linux-uclibc-gnu-gcc
-CXX=mips-linux-uclibc-gnu-g++
-AR=mips-linux-uclibc-gnu-ar
-LD=mips-linux-uclibc-gnu-ld
+#CC=mips-linux-uclibc-gnu-gcc
+#CXX=mips-linux-uclibc-gnu-g++
+#AR=mips-linux-uclibc-gnu-ar
+#LD=mips-linux-uclibc-gnu-ld
 
-#CC=gcc
-#AR=ar
-#LD=ld
+CC=gcc
+AR=ar
+LD=ld
 
 CFLAGS=
 LDFLAGS=-lpthread
 ROOT_DIR=$(shell pwd)/
 
 LIB =-L$(ROOT_DIR)/middleware/librtmp/ \
-	-L$(ROOT_DIR)/middleware/elog/ -lelog \
-    -L$(ROOT_DIR)/middleware/t20/lib/ -limp -lsysutils -lalog \
-    -L$(ROOT_DIR)/middleware/t20/lib/mxu/ -lmxu_merge -lmxu_objdetect -lmxu_contrib -lmxu_video -lmxu_imgproc -lmxu_core \
-    -L$(ROOT_DIR)/middleware/t20/lib/iaac/ -lverify -liaac
+	-L$(ROOT_DIR)/middleware/elog/ -lelog
 
 
 
