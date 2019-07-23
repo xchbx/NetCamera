@@ -1,2 +1,2 @@
-#WebCamera
-Web camera developed based on webRTC
+#NetCamera
+The NetCamera developed based on webRTC.
