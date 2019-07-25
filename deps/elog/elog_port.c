@@ -53,7 +53,7 @@ ElogErrCode elog_port_init(void) {
  * @param log output of log
  * @param size log size
  */
-void elog_port_output(const char *log, size_t size) {
+void elog_port_output(const char *log, int size) {
     /* output to terminal */
     printf("%.*s", size, log);
 }

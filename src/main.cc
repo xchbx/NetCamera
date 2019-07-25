@@ -1,14 +1,11 @@
 /* Includes ------------------------------------------------------------------*/
-#include <stdint.h>
-#include <stdio.h>
-#include <string.h>
-
+#include <cstdint>
+#include <cstdio>
+#include <cstring>
+#include <unistd.h>
 /* Kernel includes. */
 
 /* hal includes */
-#include "task_def.h"
-#include "message.h"
-#include "message_queue.h"
 #include "elog.h"
 
 #define LOG_TAG    "TASKMAIN"
@@ -47,16 +44,14 @@ static int ElogInit(void) {
  * Please refer to the log dev guide under /doc folder for more details.
  */
 
-int main(void)
+int main()
 {
 	/** hardware init */
 
 	/** message map queue mechanism init */
-    QueueInit();
     ElogInit();
 
 	/** creat task */
-	task_def_init();
 
     /* Start the scheduler. */
     while(1)
@@ -69,5 +64,6 @@ int main(void)
         log_d("Hello EasyLogger!");
         log_v("Hello EasyLogger!");   
     }
+    return 0;
 }
 
