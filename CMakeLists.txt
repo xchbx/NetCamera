@@ -1,8 +1,11 @@
 cmake_minimum_required(VERSION 3.5.0)
 
 set(CMAKE_CXX_STANDARD 14)
+SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
+SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
+SET(CMAKE_SOURCE_DIR .)
 
-project(NetCamera)
+project(NetCam)
 
-include_directories(.)
-
+ADD_SUBDIRECTORY(deps)
+ADD_SUBDIRECTORY(src)
