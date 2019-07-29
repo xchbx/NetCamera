@@ -3,6 +3,8 @@ SET(NetCamera_SOURCES
     EchoCanceller.cpp
     PackageQueue.h
     PackageQueue.cpp
+    AudioCommon.h
+    AudioCommon.cpp
     test.cpp
 	)
 
