@@ -1,0 +1,7 @@
+Name: EMIPLIB
+Description: EDM Media over IP Library
+Requires:
+Version: 1.2.1
+Libs:  -L/usr/local/lib -lemip /home/parallels/work/NetCamera/build/lib /usr/lib/x86_64-linux-gnu/libasound.so /usr/lib/x86_64-linux-gnu/libpulse-simple.so
+Cflags:  -I/home/parallels/work/NetCamera/deps/media_deps/JThread/src -I/home/parallels/work/NetCamera/build/deps/media_deps/JThread/src -I/usr/include -I/usr/local/include
+

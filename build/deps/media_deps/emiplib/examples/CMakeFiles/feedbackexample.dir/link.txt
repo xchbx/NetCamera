@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11  -rdynamic CMakeFiles/feedbackexample.dir/feedbackexample.cpp.o  -o ../../../../bin/feedbackexample ../../../../lib/libemip.a -lasound -lpulse-simple 

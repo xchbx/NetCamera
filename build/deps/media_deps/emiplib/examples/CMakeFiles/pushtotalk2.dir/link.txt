@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11  -rdynamic CMakeFiles/pushtotalk2.dir/pushtotalk2.cpp.o  -o ../../../../bin/pushtotalk2 ../../../../lib/libemip.a -lasound -lpulse-simple 

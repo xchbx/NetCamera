@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/parallels/work/NetCamera/deps/media_deps/emiplib/src/thirdparty/tinyjpeg/jidctflt.c
+miptypes.h
+/home/parallels/work/NetCamera/deps/media_deps/emiplib/src/thirdparty/tinyjpeg/miptypes.h
+tinyjpeg-internal.h
+/home/parallels/work/NetCamera/deps/media_deps/emiplib/src/thirdparty/tinyjpeg/tinyjpeg-internal.h
+
+/home/parallels/work/NetCamera/deps/media_deps/emiplib/src/thirdparty/tinyjpeg/tinyjpeg-internal.h
+setjmp.h
+-
+
+/home/parallels/work/NetCamera/deps/media_deps/emiplib/src/thirdparty/tinyjpeg/tinyjpeg.c
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+errno.h
+-
+miptypes.h
+/home/parallels/work/NetCamera/deps/media_deps/emiplib/src/thirdparty/tinyjpeg/miptypes.h
+tinyjpeg.h
+/home/parallels/work/NetCamera/deps/media_deps/emiplib/src/thirdparty/tinyjpeg/tinyjpeg.h
+tinyjpeg-internal.h
+/home/parallels/work/NetCamera/deps/media_deps/emiplib/src/thirdparty/tinyjpeg/tinyjpeg-internal.h
+
+/home/parallels/work/NetCamera/deps/media_deps/emiplib/src/thirdparty/tinyjpeg/tinyjpeg.h
+
+deps/media_deps/emiplib/src/core/miptypes.h
+stdint.h
+-
+

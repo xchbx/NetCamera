@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11  -rdynamic CMakeFiles/soundfileplayer.dir/soundfileplayer.cpp.o  -o ../../../../bin/soundfileplayer ../../../../lib/libemip.a -lasound -lpulse-simple 

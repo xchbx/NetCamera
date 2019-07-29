@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../deps/webrtc/independent_vad/tests/../src/common_types.hpp
+assert.h
+-
+stddef.h
+-
+string.h
+-
+string
+-
+vector
+-
+
+../deps/webrtc/independent_vad/tests/../src/webrtc_vad.hpp
+stddef.h
+-
+cstdint
+-
+common_types.hpp
+../deps/webrtc/independent_vad/tests/../src/common_types.hpp
+
+/home/parallels/work/NetCamera/deps/webrtc/independent_vad/tests/test_00/test_00.cpp
+iostream
+-
+webrtc_vad.hpp
+/home/parallels/work/NetCamera/deps/webrtc/independent_vad/tests/test_00/webrtc_vad.hpp
+fstream
+-
+vector
+-
+

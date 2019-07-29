@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11  -rdynamic CMakeFiles/soundvolume.dir/soundvolume.cpp.o  -o ../../../../bin/soundvolume ../../../../lib/libemip.a -lasound -lpulse-simple 

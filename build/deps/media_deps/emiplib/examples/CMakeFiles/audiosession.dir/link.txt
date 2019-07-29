@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11  -rdynamic CMakeFiles/audiosession.dir/audiosession.cpp.o  -o ../../../../bin/audiosession ../../../../lib/libemip.a -lasound -lpulse-simple 

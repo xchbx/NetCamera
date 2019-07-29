@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/NetCamera.dir/EchoCanceller.cpp.o CMakeFiles/NetCamera.dir/PackageQueue.cpp.o CMakeFiles/NetCamera.dir/AudioCommon.cpp.o CMakeFiles/NetCamera.dir/test.cpp.o  -o ../bin/NetCamera ../lib/libelog.a -lpthread ../lib/libaec.a 

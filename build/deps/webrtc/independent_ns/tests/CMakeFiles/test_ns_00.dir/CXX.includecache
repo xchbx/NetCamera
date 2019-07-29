@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../deps/webrtc/independent_ns/tests/../src/noise_suppression_x.hpp
+stddef.h
+-
+cstdint
+-
+
+/home/parallels/work/NetCamera/deps/webrtc/independent_ns/tests/test_00/test_00.cpp
+iostream
+-
+noise_suppression_x.hpp
+/home/parallels/work/NetCamera/deps/webrtc/independent_ns/tests/test_00/noise_suppression_x.hpp
+fstream
+-
+vector
+-
+

@@ -1,0 +1,1 @@
+/usr/bin/cc   -rdynamic CMakeFiles/srtp_driver.dir/test/srtp_driver.c.o CMakeFiles/srtp_driver.dir/test/util.c.o CMakeFiles/srtp_driver.dir/test/getopt_s.c.o  -o ../../../bin/srtp_driver ../../../lib/libsrtp2.a 

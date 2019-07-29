@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/test_vad_00.dir/test_00/test_00.cpp.o  -o ../../../../bin/test_vad_00 ../../../../lib/libvad.a -lpthread 
