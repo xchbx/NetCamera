@@ -6,4 +6,3 @@ ADD_DEFINITIONS(-DBUILD_SHARED_LIBS=OFF)
 
 add_subdirectory(elog)
 add_subdirectory(webrtc)
-add_subdirectory(media_deps)

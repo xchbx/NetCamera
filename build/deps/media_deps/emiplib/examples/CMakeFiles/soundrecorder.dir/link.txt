@@ -1,1 +1,0 @@
-/usr/bin/c++   -std=c++11  -rdynamic CMakeFiles/soundrecorder.dir/soundrecorder.cpp.o  -o ../../../../bin/soundrecorder ../../../../lib/libemip.a -lasound -lpulse-simple 

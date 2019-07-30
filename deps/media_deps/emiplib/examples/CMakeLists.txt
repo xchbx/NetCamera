@@ -1,13 +1,22 @@
-apply_include_paths("${EMIPLIB_INTERNAL_INCLUDES}")
-apply_include_paths("${EMIPLIB_EXTERNAL_INCLUDES}")
+#apply_include_paths("${EMIPLIB_INTERNAL_INCLUDES}")
+#apply_include_paths("${EMIPLIB_EXTERNAL_INCLUDES}")
 
+include_directories("${CMAKE_CURRENT_BINARY_DIR}/../")
+#include_directories($ENV{JRTPLIB_INC})
+#include_directories($ENV{EMIPLIB_INC})
+MESSAGE(STATUS "*************************${CMAKE_CURRENT_BINARY_DIR}")
+MESSAGE(STATUS "*************************$ENV{JTHREAD_INC}")
+MESSAGE(STATUS "*************************$ENV{JRTPLIB_INC}")
+#link_directories($ENV{JTHREAD_LIB})
+#link_directories($ENV{JRTPLIB_LIB})
+#link_directories($ENV{EMIPLIB_LIB})
 foreach(IDX avsession feedbackexample multiplesoundfileplayer simplechain soundfileplayer soundrecorder pushtotalk
 	    pushtotalk2 soundvolume audiosession)
 	add_executable(${IDX} ${IDX}.cpp)
-	if (NOT MSVC OR EMIPLIB_COMPILE_STATIC)
-		target_link_libraries(${IDX} emiplib-static ${EMIPLIB_LINK_LIBS})
-	else ()
-		target_link_libraries(${IDX} emiplib-shared ${EMIPLIB_LINK_LIBS})
-	endif ()
+	target_link_libraries(${IDX} 
+		emiplib.a
+		jthread.a
+		libjrtp.a
+		)
 endforeach(IDX)
 

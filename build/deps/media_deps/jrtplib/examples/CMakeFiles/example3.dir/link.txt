@@ -1,1 +1,0 @@
-/usr/bin/c++    -rdynamic CMakeFiles/example3.dir/example3.cpp.o  -o ../../../../bin/example3 ../../../../lib/libjrtp.a 

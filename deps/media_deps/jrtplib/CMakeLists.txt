@@ -8,6 +8,7 @@ set(VERSION_MAJOR 3)
 set(VERSION_MINOR 11)
 set(VERSION_DEBUG 1)
 set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_DEBUG}")
+SET(CMAKE_INSTALL_PREFIX ".")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 if (CMAKE_INSTALL_PREFIX AND NOT CMAKE_PREFIX_PATH)
@@ -34,11 +35,16 @@ include(CheckCXXSourceCompiles)
 include(TestBigEndian)
 include(${PROJECT_SOURCE_DIR}/cmake/Macros.cmake)
 
-find_package(JThread)
+#find_package(JThread)
 
 set(JRTPLIB_LINK_LIBS "")
 set(JRTPLIB_INTERNAL_INCLUDES "")
 set(JRTPLIB_EXTERNAL_INCLUDES "")
+
+list(APPEND JRTPLIB_EXTERNAL_INCLUDES "../../JThread/build/include")
+list(APPEND JRTPLIB_EXTERNAL_INCLUDES "../../libsrtp/build/include")
+list(APPEND EMIPLIB_LINK_LIBS "../../JThread/build/lib")
+list(APPEND EMIPLIB_LINK_LIBS "../../libsrtp/build/lib")
 
 add_additional_stuff(JRTPLIB_EXTERNAL_INCLUDES JRTPLIB_LINK_LIBS)
 
@@ -69,7 +75,7 @@ else (JTHREAD_ENABLED)
 	set (RTP_SUPPORT_THREAD "// No support for JThread was enabled")
 endif (JTHREAD_ENABLED)
 
-find_package(LIBSRTP)
+#find_package(LIBSRTP)
 if (LIBSRTP_FOUND)
 	set(V "ON")
 else (LIBSRTP_FOUND)

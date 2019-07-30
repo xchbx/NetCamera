@@ -264,6 +264,7 @@ endif ()
 
 apply_include_paths("${EMIPLIB_INTERNAL_INCLUDES}")
 apply_include_paths("${EMIPLIB_EXTERNAL_INCLUDES}")
+MESSAGE(STATUS "##################${EMIPLIB_EXTERNAL_INCLUDES}")
 
 if (NOT MSVC OR EMIPLIB_COMPILE_STATIC)
 	add_library(emiplib-static STATIC ${SOURCES} ${HEADERS})

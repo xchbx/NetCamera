@@ -1,1 +1,0 @@
-/usr/bin/c++   -std=c++11  -rdynamic CMakeFiles/simplechain.dir/simplechain.cpp.o  -o ../../../../bin/simplechain ../../../../lib/libemip.a -lasound -lpulse-simple 
