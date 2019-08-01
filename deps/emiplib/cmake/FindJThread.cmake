@@ -1,8 +1,9 @@
 
 find_package(JThread QUIET NO_MODULE)
 
+MESSAGE(STATUS "*******${CMAKE_MODULE_PATH}")
+MESSAGE(STATUS "*******${CMAKE_ROOT}")
 MESSAGE(STATUS "JTHREAD_INCLUDE_DIR--------${JTHREAD_INCLUDE_DIR}")
-MESSAGE(STATUS "CMAKE_INCLUDE_PATH--------${CMAKE_INCLUDE_PATH}")
 
 if (NOT JTHREAD_FOUND) # Config file could not be found
 	find_path(JTHREAD_INCLUDE_DIR jthread/jthread.h)

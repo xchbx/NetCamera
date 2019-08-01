@@ -8,7 +8,6 @@ set(VERSION_MAJOR 3)
 set(VERSION_MINOR 11)
 set(VERSION_DEBUG 1)
 set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_DEBUG}")
-SET(CMAKE_INSTALL_PREFIX ".")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 if (CMAKE_INSTALL_PREFIX AND NOT CMAKE_PREFIX_PATH)
@@ -205,7 +204,7 @@ endif()
 if (NOT MSVC)
 	set(JRTPLIB_LIBS "-L${LIBRARY_INSTALL_DIR}" "-ljrtp")
 else ()
-	set(JRTPLIB_LIBS optimized "${LIBRARY_INSTALL_DIR}/jrtplib.lib" 
+	set(JRTPLIB_LIBS optimized "${LIBRARY_INSTALL_DIR}/jrtplib.lib"
 		         debug "${LIBRARY_INSTALL_DIR}/jrtplib_d.lib")
 endif ()
 
