@@ -1,5 +1,3 @@
-add_definitions(-DEMIPLIB_COMPILING)
-
 set(HEADERS
 core/mipcompat.h
 core/mipmessage.h
@@ -47,9 +45,9 @@ components/output/mipsndfileoutput.h
 components/output/mipvideoframestorage.h
 components/output/mipaudiotrackoutput.h
 components/output/mipwavoutput.h
-components/output/mipwinmmoutput.h 
-components/output/mippulseoutput.h 
-components/output/mipqt5audiooutput.h 
+components/output/mipwinmmoutput.h
+components/output/mippulseoutput.h
+components/output/mipqt5audiooutput.h
 components/output/mipopenslesandroidoutput.h
 components/timer/mipinterchaintimer.h
 components/timer/mipaveragetimer.h
@@ -145,7 +143,7 @@ components/input/mipv4l2input.cpp
 components/input/mipfrequencygenerator.cpp
 components/input/mipwavinput.cpp
 components/input/mipaudiofileinput.cpp
-components/input/mipwinmminput.cpp 
+components/input/mipwinmminput.cpp
 components/input/mipyuv420fileinput.cpp
 components/input/mipopenslesandroidinput.cpp
 components/output/mipalsaoutput.cpp
@@ -235,63 +233,9 @@ util/mipdirectorybrowser.cpp
 util/mipwavreader.cpp
 util/mipspeexutil.cpp
 util/miprtpsynchronizer.cpp
-util/mipstreambuffer.cpp 
-thirdparty/gsm/src/gsm_add.cpp
-thirdparty/gsm/src/gsm_destroy.cpp
-thirdparty/gsm/src/gsm_implode.cpp
-thirdparty/gsm/src/gsm_print.cpp
-thirdparty/gsm/src/gsm_encode.cpp
-thirdparty/gsm/src/gsm_explode.cpp
-thirdparty/gsm/src/gsm_create.cpp
-thirdparty/gsm/src/gsm_decode2.cpp
-thirdparty/gsm/src/gsm_option.cpp
-thirdparty/gsm/src/gsm_code.cpp
-thirdparty/gsm/src/gsm_lpc.cpp
-thirdparty/gsm/src/gsm_decode.cpp
-thirdparty/gsm/src/gsm_preprocess.cpp
-thirdparty/gsm/src/gsm_debug.cpp
-thirdparty/gsm/src/gsm_long_term.cpp
-thirdparty/gsm/src/gsm_rpe.cpp
-thirdparty/gsm/src/gsm_short_term.cpp
-thirdparty/gsm/src/gsm_table.cpp
-thirdparty/lpc/lpccodec.cpp
-thirdparty/tinyjpeg/tinyjpeg.c
-thirdparty/tinyjpeg/jidctflt.c )
+util/mipstreambuffer.cpp)
 
-if (MSVC)
-	set(CMAKE_DEBUG_POSTFIX _d)
-endif ()
 
 apply_include_paths("${EMIPLIB_INTERNAL_INCLUDES}")
 apply_include_paths("${EMIPLIB_EXTERNAL_INCLUDES}")
-MESSAGE(STATUS "##################${EMIPLIB_EXTERNAL_INCLUDES}")
-
-if (NOT MSVC OR EMIPLIB_COMPILE_STATIC)
-	add_library(emiplib-static STATIC ${SOURCES} ${HEADERS})
-	if (NOT MSVC)
-		set_target_properties(emiplib-static PROPERTIES OUTPUT_NAME emip)
-	else ()
-		set_target_properties(emiplib-static PROPERTIES OUTPUT_NAME emiplib)
-	endif ()
-	set_target_properties(emiplib-static PROPERTIES CLEAN_DIRECT_OUTPUT 1)
-	set(EMIPLIB_INSTALLTARGETS emiplib-static)
-endif ()
-
-if (NOT MSVC OR NOT EMIPLIB_COMPILE_STATIC)
-	add_library(emiplib-shared SHARED ${SOURCES} ${HEADERS})
-	set_target_properties(emiplib-shared PROPERTIES VERSION ${VERSION})
-	if (NOT MSVC)
-		set_target_properties(emiplib-shared PROPERTIES OUTPUT_NAME emip)
-	else ()
-		set_target_properties(emiplib-shared PROPERTIES OUTPUT_NAME emiplib)
-	endif ()
-	set_target_properties(emiplib-shared PROPERTIES CLEAN_DIRECT_OUTPUT 1)
-	set(EMIPLIB_INSTALLTARGETS ${EMIPLIB_INSTALLTARGETS} emiplib-shared)
-	if (EMIPLIB_LINK)
-		target_link_libraries(emiplib-shared ${EMIPLIB_LINK_LIBS})
-	endif (EMIPLIB_LINK)
-endif ()
-
-install(FILES ${HEADERS} DESTINATION include/emiplib)
-install(TARGETS ${EMIPLIB_INSTALLTARGETS} DESTINATION ${LIBRARY_INSTALL_DIR})
 

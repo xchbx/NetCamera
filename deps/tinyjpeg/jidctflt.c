@@ -71,9 +71,10 @@
  * we use floating point arithmetic.
  */
 
-//#include <stdint.h>
-#include "miptypes.h"
+#include <stdint.h>
+//#include "miptypes.h"
 #include "tinyjpeg-internal.h"
+
 
 #define FAST_FLOAT float
 #define DCTSIZE	   8

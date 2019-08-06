@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 3.5.0)
+
+set(CMAKE_CXX_STANDARD 14)
+
+project(gsm)
+
+include_directories(.)
+ADD_DEFINITIONS(-DBUILD_SHARED_LIBS=OFF)
+
+
+file(GLOB_RECURSE FILES_SOURCES *.cpp *.cc)
+file(GLOB_RECURSE FILES_INCLUDE *.h *.hpp)
+
+MESSAGE(STATUS "INC = ${FILES_INCLUDE}")
+MESSAGE(STATUS "SRC = ${FILES_SOURCES}")
+
+ADD_LIBRARY(${PROJECT_NAME} STATIC ${FILES_INCLUDE} ${FILES_SOURCES})
+
+target_link_libraries(${PROJECT_NAME})
+

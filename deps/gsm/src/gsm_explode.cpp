@@ -1,4 +1,4 @@
-#include "mipconfig.h"
+//#include "mipconfig.h"
 
 #ifdef MIPCONFIG_SUPPORT_GSM
 
@@ -8,24 +8,27 @@
  * details.  THERE IS ABSOLUTELY NO WARRANTY FOR THIS SOFTWARE.
  */
 
-/* $Header: /home/jori/CVSROOT/jvoiplib/src/thirdparty/gsm/src/gsm_decode.cpp,v 1.3 2004/09/02 14:47:35 jori Exp $ */
+/* $Header: /home/jori/CVSROOT/jvoiplib/src/thirdparty/gsm/src/gsm_explode.cpp,v 1.2 2004/09/02 14:47:35 jori Exp $ */
 
 #include "private.h"
-
 #include "gsm.h"
 #include "proto.h"
 
-int gsm_decode P3((s, c, target), gsm s, gsm_byte * c, gsm_signal * target)
+int gsm_explode P3((s, c, target), gsm s, gsm_byte * c, gsm_signal * target)
 {
-	word  	LARc[8], Nc[4], Mc[4], bc[4], xmaxc[4], xmc[13*4];
+#	define	LARc	target
+#	define	Nc	*((gsm_signal (*) [17])(target + 8))
+#	define	bc	*((gsm_signal (*) [17])(target + 9))
+#	define	Mc	*((gsm_signal (*) [17])(target + 10))
+#	define	xmaxc	*((gsm_signal (*) [17])(target + 11))
+
 
 #ifdef WAV49
 	if (s->wav_fmt) {
 
 		uword sr = 0;
 
-		s->frame_index = !s->frame_index;
-		if (s->frame_index) {
+		if (s->frame_index == 1) {
 
 			sr = *c++;
 			LARc[0] = sr & 0x3f;  sr >>= 6;
@@ -46,6 +49,8 @@ int gsm_decode P3((s, c, target), gsm s, gsm_byte * c, gsm_signal * target)
 			Mc[0] = sr & 0x3;  sr >>= 2;
 			sr |= (uword)*c++ << 1;
 			xmaxc[0] = sr & 0x3f;  sr >>= 6;
+#undef	xmc
+#define	xmc	(target + 12)
 			xmc[0] = sr & 0x7;  sr >>= 3;
 			sr = *c++;
 			xmc[1] = sr & 0x7;  sr >>= 3;
@@ -70,6 +75,9 @@ int gsm_decode P3((s, c, target), gsm s, gsm_byte * c, gsm_signal * target)
 			Mc[1] = sr & 0x3;  sr >>= 2;
 			sr |= (uword)*c++ << 1;
 			xmaxc[1] = sr & 0x3f;  sr >>= 6;
+#undef	xmc
+#define	xmc	(target + 29 - 13)
+
 			xmc[13] = sr & 0x7;  sr >>= 3;
 			sr = *c++;				/* 15 */
 			xmc[14] = sr & 0x7;  sr >>= 3;
@@ -94,6 +102,10 @@ int gsm_decode P3((s, c, target), gsm s, gsm_byte * c, gsm_signal * target)
 			Mc[2] = sr & 0x3;  sr >>= 2;
 			sr |= (uword)*c++ << 1;
 			xmaxc[2] = sr & 0x3f;  sr >>= 6;
+
+#undef	xmc
+#define	xmc	(target + 46 - 26)
+
 			xmc[26] = sr & 0x7;  sr >>= 3;
 			sr = *c++;
 			xmc[27] = sr & 0x7;  sr >>= 3;
@@ -118,6 +130,9 @@ int gsm_decode P3((s, c, target), gsm s, gsm_byte * c, gsm_signal * target)
 			Mc[3] = sr & 0x3;  sr >>= 2;
 			sr |= (uword)*c++ << 1;
 			xmaxc[3] = sr & 0x3f;  sr >>= 6;
+#undef	xmc
+#define	xmc	(target + 63 - 39)
+
 			xmc[39] = sr & 0x7;  sr >>= 3;
 			sr = *c++;
 			xmc[40] = sr & 0x7;  sr >>= 3;
@@ -160,6 +175,8 @@ int gsm_decode P3((s, c, target), gsm s, gsm_byte * c, gsm_signal * target)
 			Mc[0] = sr & 0x3;  sr >>= 2;
 			sr |= (uword)*c++ << 5;
 			xmaxc[0] = sr & 0x3f;  sr >>= 6;
+#undef	xmc
+#define	xmc	(target + 12)
 			xmc[0] = sr & 0x7;  sr >>= 3;
 			xmc[1] = sr & 0x7;  sr >>= 3;
 			sr |= (uword)*c++ << 1;
@@ -184,6 +201,9 @@ int gsm_decode P3((s, c, target), gsm s, gsm_byte * c, gsm_signal * target)
 			Mc[1] = sr & 0x3;  sr >>= 2;
 			sr |= (uword)*c++ << 5;
 			xmaxc[1] = sr & 0x3f;  sr >>= 6;
+#undef	xmc
+#define	xmc	(target + 29 - 13)
+
 			xmc[13] = sr & 0x7;  sr >>= 3;
 			xmc[14] = sr & 0x7;  sr >>= 3;
 			sr |= (uword)*c++ << 1;			/* 15 */
@@ -208,6 +228,8 @@ int gsm_decode P3((s, c, target), gsm s, gsm_byte * c, gsm_signal * target)
 			Mc[2] = sr & 0x3;  sr >>= 2;
 			sr |= (uword)*c++ << 5;
 			xmaxc[2] = sr & 0x3f;  sr >>= 6;
+#undef	xmc
+#define	xmc	(target + 46 - 26)
 			xmc[26] = sr & 0x7;  sr >>= 3;
 			xmc[27] = sr & 0x7;  sr >>= 3;
 			sr |= (uword)*c++ << 1;	
@@ -232,6 +254,10 @@ int gsm_decode P3((s, c, target), gsm s, gsm_byte * c, gsm_signal * target)
 			Mc[3] = sr & 0x3;  sr >>= 2;
 			sr |= (uword)*c++ << 5;
 			xmaxc[3] = sr & 0x3f;  sr >>= 6;
+
+#undef	xmc
+#define	xmc	(target + 63 - 39)
+
 			xmc[39] = sr & 0x7;  sr >>= 3;
 			xmc[40] = sr & 0x7;  sr >>= 3;
 			sr |= (uword)*c++ << 1;
@@ -251,119 +277,148 @@ int gsm_decode P3((s, c, target), gsm s, gsm_byte * c, gsm_signal * target)
 			xmc[51] = sr & 0x7;  sr >>= 3;
 		}
 	}
-	else
+	else 
 #endif
 	{
-		/* GSM_MAGIC  = (*c >> 4) & 0xF; */
+	/* GSM_MAGIC  = (*c >> 4) & 0xF; */
 
-		if (((*c >> 4) & 0x0F) != GSM_MAGIC) return -1;
+	if (((*c >> 4) & 0x0F) != GSM_MAGIC) return -1;
 
-		LARc[0]  = (*c++ & 0xF) << 2;		/* 1 */
-		LARc[0] |= (*c >> 6) & 0x3;
-		LARc[1]  = *c++ & 0x3F;
-		LARc[2]  = (*c >> 3) & 0x1F;
-		LARc[3]  = (*c++ & 0x7) << 2;
-		LARc[3] |= (*c >> 6) & 0x3;
-		LARc[4]  = (*c >> 2) & 0xF;
-		LARc[5]  = (*c++ & 0x3) << 2;
-		LARc[5] |= (*c >> 6) & 0x3;
-		LARc[6]  = (*c >> 3) & 0x7;
-		LARc[7]  = *c++ & 0x7;
-		Nc[0]  = (*c >> 1) & 0x7F;
-		bc[0]  = (*c++ & 0x1) << 1;
-		bc[0] |= (*c >> 7) & 0x1;
-		Mc[0]  = (*c >> 5) & 0x3;
-		xmaxc[0]  = (*c++ & 0x1F) << 1;
-		xmaxc[0] |= (*c >> 7) & 0x1;
-		xmc[0]  = (*c >> 4) & 0x7;
-		xmc[1]  = (*c >> 1) & 0x7;
-		xmc[2]  = (*c++ & 0x1) << 2;
-		xmc[2] |= (*c >> 6) & 0x3;
-		xmc[3]  = (*c >> 3) & 0x7;
-		xmc[4]  = *c++ & 0x7;
-		xmc[5]  = (*c >> 5) & 0x7;
-		xmc[6]  = (*c >> 2) & 0x7;
-		xmc[7]  = (*c++ & 0x3) << 1;		/* 10 */
-		xmc[7] |= (*c >> 7) & 0x1;
-		xmc[8]  = (*c >> 4) & 0x7;
-		xmc[9]  = (*c >> 1) & 0x7;
-		xmc[10]  = (*c++ & 0x1) << 2;
-		xmc[10] |= (*c >> 6) & 0x3;
-		xmc[11]  = (*c >> 3) & 0x7;
-		xmc[12]  = *c++ & 0x7;
-		Nc[1]  = (*c >> 1) & 0x7F;
-		bc[1]  = (*c++ & 0x1) << 1;
-		bc[1] |= (*c >> 7) & 0x1;
-		Mc[1]  = (*c >> 5) & 0x3;
-		xmaxc[1]  = (*c++ & 0x1F) << 1;
-		xmaxc[1] |= (*c >> 7) & 0x1;
-		xmc[13]  = (*c >> 4) & 0x7;
-		xmc[14]  = (*c >> 1) & 0x7;
-		xmc[15]  = (*c++ & 0x1) << 2;
-		xmc[15] |= (*c >> 6) & 0x3;
-		xmc[16]  = (*c >> 3) & 0x7;
-		xmc[17]  = *c++ & 0x7;
-		xmc[18]  = (*c >> 5) & 0x7;
-		xmc[19]  = (*c >> 2) & 0x7;
-		xmc[20]  = (*c++ & 0x3) << 1;
-		xmc[20] |= (*c >> 7) & 0x1;
-		xmc[21]  = (*c >> 4) & 0x7;
-		xmc[22]  = (*c >> 1) & 0x7;
-		xmc[23]  = (*c++ & 0x1) << 2;
-		xmc[23] |= (*c >> 6) & 0x3;
-		xmc[24]  = (*c >> 3) & 0x7;
-		xmc[25]  = *c++ & 0x7;
-		Nc[2]  = (*c >> 1) & 0x7F;
-		bc[2]  = (*c++ & 0x1) << 1;		/* 20 */
-		bc[2] |= (*c >> 7) & 0x1;
-		Mc[2]  = (*c >> 5) & 0x3;
-		xmaxc[2]  = (*c++ & 0x1F) << 1;
-		xmaxc[2] |= (*c >> 7) & 0x1;
-		xmc[26]  = (*c >> 4) & 0x7;
-		xmc[27]  = (*c >> 1) & 0x7;
-		xmc[28]  = (*c++ & 0x1) << 2;
-		xmc[28] |= (*c >> 6) & 0x3;
-		xmc[29]  = (*c >> 3) & 0x7;
-		xmc[30]  = *c++ & 0x7;
-		xmc[31]  = (*c >> 5) & 0x7;
-		xmc[32]  = (*c >> 2) & 0x7;
-		xmc[33]  = (*c++ & 0x3) << 1;
-		xmc[33] |= (*c >> 7) & 0x1;
-		xmc[34]  = (*c >> 4) & 0x7;
-		xmc[35]  = (*c >> 1) & 0x7;
-		xmc[36]  = (*c++ & 0x1) << 2;
-		xmc[36] |= (*c >> 6) & 0x3;
-		xmc[37]  = (*c >> 3) & 0x7;
-		xmc[38]  = *c++ & 0x7;
-		Nc[3]  = (*c >> 1) & 0x7F;
-		bc[3]  = (*c++ & 0x1) << 1;
-		bc[3] |= (*c >> 7) & 0x1;
-		Mc[3]  = (*c >> 5) & 0x3;
-		xmaxc[3]  = (*c++ & 0x1F) << 1;
-		xmaxc[3] |= (*c >> 7) & 0x1;
-		xmc[39]  = (*c >> 4) & 0x7;
-		xmc[40]  = (*c >> 1) & 0x7;
-		xmc[41]  = (*c++ & 0x1) << 2;
-		xmc[41] |= (*c >> 6) & 0x3;
-		xmc[42]  = (*c >> 3) & 0x7;
-		xmc[43]  = *c++ & 0x7;			/* 30  */
-		xmc[44]  = (*c >> 5) & 0x7;
-		xmc[45]  = (*c >> 2) & 0x7;
-		xmc[46]  = (*c++ & 0x3) << 1;
-		xmc[46] |= (*c >> 7) & 0x1;
-		xmc[47]  = (*c >> 4) & 0x7;
-		xmc[48]  = (*c >> 1) & 0x7;
-		xmc[49]  = (*c++ & 0x1) << 2;
-		xmc[49] |= (*c >> 6) & 0x3;
-		xmc[50]  = (*c >> 3) & 0x7;
-		xmc[51]  = *c & 0x7;			/* 33 */
+	LARc[0]  = (*c++ & 0xF) << 2;		/* 1 */
+	LARc[0] |= (*c >> 6) & 0x3;
+	LARc[1]  = *c++ & 0x3F;
+	LARc[2]  = (*c >> 3) & 0x1F;
+	LARc[3]  = (*c++ & 0x7) << 2;
+	LARc[3] |= (*c >> 6) & 0x3;
+	LARc[4]  = (*c >> 2) & 0xF;
+	LARc[5]  = (*c++ & 0x3) << 2;
+	LARc[5] |= (*c >> 6) & 0x3;
+	LARc[6]  = (*c >> 3) & 0x7;
+	LARc[7]  = *c++ & 0x7;
+
+	Nc[0]  = (*c >> 1) & 0x7F;
+
+	bc[0]  = (*c++ & 0x1) << 1;
+	bc[0] |= (*c >> 7) & 0x1;
+
+	Mc[0]  = (*c >> 5) & 0x3;
+
+	xmaxc[0]  = (*c++ & 0x1F) << 1;
+	xmaxc[0] |= (*c >> 7) & 0x1;
+
+#undef	xmc
+#define	xmc	(target + 12)
+
+	xmc[0]  = (*c >> 4) & 0x7;
+	xmc[1]  = (*c >> 1) & 0x7;
+	xmc[2]  = (*c++ & 0x1) << 2;
+	xmc[2] |= (*c >> 6) & 0x3;
+	xmc[3]  = (*c >> 3) & 0x7;
+	xmc[4]  = *c++ & 0x7;
+	xmc[5]  = (*c >> 5) & 0x7;
+	xmc[6]  = (*c >> 2) & 0x7;
+	xmc[7]  = (*c++ & 0x3) << 1;		/* 10 */
+	xmc[7] |= (*c >> 7) & 0x1;
+	xmc[8]  = (*c >> 4) & 0x7;
+	xmc[9]  = (*c >> 1) & 0x7;
+	xmc[10]  = (*c++ & 0x1) << 2;
+	xmc[10] |= (*c >> 6) & 0x3;
+	xmc[11]  = (*c >> 3) & 0x7;
+	xmc[12]  = *c++ & 0x7;
+
+	Nc[1]  = (*c >> 1) & 0x7F;
+
+	bc[1]  = (*c++ & 0x1) << 1;
+	bc[1] |= (*c >> 7) & 0x1;
+
+	Mc[1]  = (*c >> 5) & 0x3;
+
+	xmaxc[1]  = (*c++ & 0x1F) << 1;
+	xmaxc[1] |= (*c >> 7) & 0x1;
+
+#undef	xmc
+#define	xmc	(target + 29 - 13)
+
+	xmc[13]  = (*c >> 4) & 0x7;
+	xmc[14]  = (*c >> 1) & 0x7;
+	xmc[15]  = (*c++ & 0x1) << 2;
+	xmc[15] |= (*c >> 6) & 0x3;
+	xmc[16]  = (*c >> 3) & 0x7;
+	xmc[17]  = *c++ & 0x7;
+	xmc[18]  = (*c >> 5) & 0x7;
+	xmc[19]  = (*c >> 2) & 0x7;
+	xmc[20]  = (*c++ & 0x3) << 1;
+	xmc[20] |= (*c >> 7) & 0x1;
+	xmc[21]  = (*c >> 4) & 0x7;
+	xmc[22]  = (*c >> 1) & 0x7;
+	xmc[23]  = (*c++ & 0x1) << 2;
+	xmc[23] |= (*c >> 6) & 0x3;
+	xmc[24]  = (*c >> 3) & 0x7;
+	xmc[25]  = *c++ & 0x7;
+
+	Nc[2]  = (*c >> 1) & 0x7F;
+
+	bc[2]  = (*c++ & 0x1) << 1;		/* 20 */
+	bc[2] |= (*c >> 7) & 0x1;
+
+	Mc[2]  = (*c >> 5) & 0x3;
+
+	xmaxc[2]  = (*c++ & 0x1F) << 1;
+	xmaxc[2] |= (*c >> 7) & 0x1;
+
+#undef	xmc
+#define	xmc	(target + 46 - 26)
+
+	xmc[26]  = (*c >> 4) & 0x7;
+	xmc[27]  = (*c >> 1) & 0x7;
+	xmc[28]  = (*c++ & 0x1) << 2;
+	xmc[28] |= (*c >> 6) & 0x3;
+	xmc[29]  = (*c >> 3) & 0x7;
+	xmc[30]  = *c++ & 0x7;
+	xmc[31]  = (*c >> 5) & 0x7;
+	xmc[32]  = (*c >> 2) & 0x7;
+	xmc[33]  = (*c++ & 0x3) << 1;
+	xmc[33] |= (*c >> 7) & 0x1;
+	xmc[34]  = (*c >> 4) & 0x7;
+	xmc[35]  = (*c >> 1) & 0x7;
+	xmc[36]  = (*c++ & 0x1) << 2;
+	xmc[36] |= (*c >> 6) & 0x3;
+	xmc[37]  = (*c >> 3) & 0x7;
+	xmc[38]  = *c++ & 0x7;
+
+	Nc[3]  = (*c >> 1) & 0x7F;
+
+	bc[3]  = (*c++ & 0x1) << 1;
+	bc[3] |= (*c >> 7) & 0x1;
+
+	Mc[3]  = (*c >> 5) & 0x3;
+
+	xmaxc[3]  = (*c++ & 0x1F) << 1;
+	xmaxc[3] |= (*c >> 7) & 0x1;
+
+#undef	xmc
+#define	xmc	(target + 63 - 39)
+
+	xmc[39]  = (*c >> 4) & 0x7;
+	xmc[40]  = (*c >> 1) & 0x7;
+	xmc[41]  = (*c++ & 0x1) << 2;
+	xmc[41] |= (*c >> 6) & 0x3;
+	xmc[42]  = (*c >> 3) & 0x7;
+	xmc[43]  = *c++ & 0x7;			/* 30  */
+	xmc[44]  = (*c >> 5) & 0x7;
+	xmc[45]  = (*c >> 2) & 0x7;
+	xmc[46]  = (*c++ & 0x3) << 1;
+	xmc[46] |= (*c >> 7) & 0x1;
+	xmc[47]  = (*c >> 4) & 0x7;
+	xmc[48]  = (*c >> 1) & 0x7;
+	xmc[49]  = (*c++ & 0x1) << 2;
+	xmc[49] |= (*c >> 6) & 0x3;
+	xmc[50]  = (*c >> 3) & 0x7;
+	xmc[51]  = *c & 0x7;			/* 33 */
 	}
-
-	Gsm_Decoder(s, LARc, Nc, bc, Mc, xmaxc, xmc, target);
 
 	return 0;
 }
-
 
 
 #endif // MIPCONFIG_SUPPORT_GSM

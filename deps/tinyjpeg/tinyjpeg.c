@@ -34,9 +34,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <stdint.h>
+#include <stdint.h>
 #include <errno.h>
-#include "miptypes.h"
+//#include "miptypes.h"
 
 #include "tinyjpeg.h"
 #include "tinyjpeg-internal.h"
