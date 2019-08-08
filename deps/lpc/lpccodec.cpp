@@ -1,4 +1,4 @@
-#include "mipconfig.h"
+//#include "mipconfig.h"
 
 #ifdef MIPCONFIG_SUPPORT_LPC
 

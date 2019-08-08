@@ -7,7 +7,7 @@ project(lpc)
 include_directories(.)
 
 
-file(GLOB_RECURSE FILES_SOURCES *.c)
+file(GLOB_RECURSE FILES_SOURCES *.cpp)
 file(GLOB_RECURSE FILES_INCLUDE *.h *.hpp)
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${FILES_INCLUDE} ${FILES_SOURCES})
