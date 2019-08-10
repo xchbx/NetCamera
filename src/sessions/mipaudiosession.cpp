@@ -39,12 +39,10 @@
 #include "mipsampleencoder.h"
 #include "mipspeexencoder.h"
 #include "miplpcencoder.h"
-#include "mipgsmencoder.h"
 #include "mipulawencoder.h"
 #include "mipalawencoder.h"
 #include "miprtpspeexencoder.h"
 #include "miprtplpcencoder.h"
-#include "miprtpgsmencoder.h"
 #include "miprtpalawencoder.h"
 #include "miprtpulawencoder.h"
 #include "miprtpl16encoder.h"
@@ -55,14 +53,12 @@
 #include "miprtpdummydecoder.h"
 #include "miprtpspeexdecoder.h"
 #include "miprtplpcdecoder.h"
-#include "miprtpgsmdecoder.h"
 #include "miprtpalawdecoder.h"
 #include "miprtpulawdecoder.h"
 #include "miprtpl16decoder.h"
 #include "mipmediabuffer.h"
 #include "mipspeexdecoder.h"
 #include "miplpcdecoder.h"
-#include "mipgsmdecoder.h"
 #include "mipulawdecoder.h"
 #include "mipalawdecoder.h"
 #include "mipsamplingrateconverter.h"
@@ -399,39 +395,6 @@ bool MIPAudioSession::init(const MIPAudioSessionParams *pParams, MIPRTPSynchroni
 #endif // MIPCONFIG_SUPPORT_LPC
 		}
 		break;
-		case MIPAudioSessionParams::GSM:
-		{
-#ifdef MIPCONFIG_SUPPORT_GSM
-			MIPGSMEncoder *pGSMEnc = new MIPGSMEncoder();
-			storeComponent(pGSMEnc);
-	
-			if (!pGSMEnc->init())
-			{
-				setErrorString(pGSMEnc->getErrorString());
-				deleteAll();
-				return false;
-			}
-			addLink(pActiveChain, &pPrevComponent, pGSMEnc);
-
-			MIPRTPGSMEncoder *pRTPEnc = new MIPRTPGSMEncoder();
-			storeComponent(pRTPEnc);
-		
-			if (!pRTPEnc->init())
-			{
-				setErrorString(pRTPEnc->getErrorString());
-				deleteAll();
-				return false;
-			}
-			addLink(pActiveChain, &pPrevComponent, pRTPEnc);
-
-			pRTPEnc->setPayloadType(3);
-#else
-			setErrorString(MIPAUDIOSESSION_ERRSTR_NOGSM);
-			deleteAll();
-			return false;
-#endif // MIPCONFIG_SUPPORT_GSM
-		}
-		break;
 		case MIPAudioSessionParams::ALaw:
 		{
 			MIPALawEncoder *pALawEnc = new MIPALawEncoder();
@@ -690,18 +653,6 @@ bool MIPAudioSession::init(const MIPAudioSessionParams *pParams, MIPRTPSynchroni
 	}
 #endif // MIPCONFIG_SUPPORT_LPC
 
-#ifdef MIPCONFIG_SUPPORT_GSM
-	MIPRTPGSMDecoder *pRTPGSMDec = new MIPRTPGSMDecoder();
-	storePacketDecoder(pRTPGSMDec);
-	
-	if (!pRTPDec->setPacketDecoder(3, pRTPGSMDec))
-	{
-		setErrorString(pRTPDec->getErrorString());
-		deleteAll();
-		return false;
-	}
-#endif // MIPCONFIG_SUPPORT_GSM
-
 #ifdef MIPCONFIG_SUPPORT_OPUS
 	MIPRTPOpusDecoder *pRTPOpusDec = new MIPRTPOpusDecoder();
 	storePacketDecoder(pRTPOpusDec);
@@ -806,20 +757,6 @@ bool MIPAudioSession::init(const MIPAudioSessionParams *pParams, MIPRTPSynchroni
 	pActiveChain->addConnection(pMediaBuf, pLPCDec, false, MIPMESSAGE_TYPE_AUDIO_ENCODED, MIPENCODEDAUDIOMESSAGE_TYPE_LPC);
 	pActiveChain->addConnection(pLPCDec, pSampConv, false);
 #endif // MIPCONFIG_SUPPORT_LPC
-
-#ifdef MIPCONFIG_SUPPORT_GSM
-	MIPGSMDecoder *pGSMDec = new MIPGSMDecoder();
-	storeComponent(pGSMDec);
-	
-	if (!pGSMDec->init())
-	{
-		setErrorString(pGSMDec->getErrorString());
-		deleteAll();
-		return false;
-	}
-	pActiveChain->addConnection(pMediaBuf, pGSMDec, false, MIPMESSAGE_TYPE_AUDIO_ENCODED, MIPENCODEDAUDIOMESSAGE_TYPE_GSM);
-	pActiveChain->addConnection(pGSMDec, pSampConv, false);
-#endif // MIPCONFIG_SUPPORT_GSM
 
 	MIPALawDecoder *pALawDec = new MIPALawDecoder();
 	storeComponent(pALawDec);

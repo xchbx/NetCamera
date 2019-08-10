@@ -1,6 +1,6 @@
-#include "mipconfig.h"
+//#include "mipconfig.h"
 
-#ifdef MIPCONFIG_SUPPORT_LPC
+//#ifdef MIPCONFIG_SUPPORT_LPC
 
 #ifndef LPCCODEC_H
 
@@ -58,4 +58,4 @@ private:
 #endif // LPCCODEC_H
 
 
-#endif // MIPCONFIG_SUPPORT_LPC
+//#endif // MIPCONFIG_SUPPORT_LPC

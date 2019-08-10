@@ -1,12 +1,13 @@
 //#include "mipconfig.h"
 
-#ifdef MIPCONFIG_SUPPORT_LPC
+//#ifdef MIPCONFIG_SUPPORT_LPC
 
 #include "lpccodec.h"
-#include "miptime.h"
+//#include "miptime.h"
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
 #ifndef M_PI
 	#define M_PI		3.14159265358979323846
@@ -44,7 +45,11 @@ LPCEncoder::~LPCEncoder()
 void LPCEncoder::Reset()
 {
 	vuv = 0;
-	srand(MIPTime::getCurrentTime().getSeconds());
+    struct timeval tv;
+    gettimeofday(&tv,NULL);
+    unsigned int u32Seed = tv.tv_sec + tv.tv_usec;
+	//srand(MIPTime::getCurrentTime().getSeconds());
+	srand(u32Seed);
 	lpc_init();
 }
 
@@ -433,4 +438,4 @@ void LPCDecoder::lpc_init()
 }
 
 
-#endif // MIPCONFIG_SUPPORT_LPC
+//#endif // MIPCONFIG_SUPPORT_LPC

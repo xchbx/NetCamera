@@ -1,9 +1,7 @@
-#apply_include_paths("${EMIPLIB_INTERNAL_INCLUDES}")
-#apply_include_paths("${EMIPLIB_EXTERNAL_INCLUDES}")
 
 include_directories("${CMAKE_CURRENT_BINARY_DIR}/../")
-#include_directories($ENV{JRTPLIB_INC})
-#include_directories($ENV{EMIPLIB_INC})
+include_directories($ENV{JRTPLIB_INC})
+include_directories($ENV{EMIPLIB_INC})
 MESSAGE(STATUS "*************************${CMAKE_CURRENT_BINARY_DIR}")
 MESSAGE(STATUS "*************************$ENV{JTHREAD_INC}")
 MESSAGE(STATUS "*************************$ENV{JRTPLIB_INC}")

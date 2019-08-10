@@ -26,63 +26,65 @@
 
 #define MIPCONFIG_H
 
-#define EMIPLIB_IMPORT ${EMIPLIB_IMPORT}
-#define EMIPLIB_EXPORT ${EMIPLIB_EXPORT}
+#define EMIPLIB_IMPORT 
+#define EMIPLIB_EXPORT 
 #ifdef EMIPLIB_COMPILING
 	#define EMIPLIB_IMPORTEXPORT EMIPLIB_EXPORT
 #else
 	#define EMIPLIB_IMPORTEXPORT EMIPLIB_IMPORT
 #endif // EMIPLIB_COMPILING
 
-${MIPCONFIG_GPL}
+// No GPL components will be compiled
 
-${MIPCONFIG_BIGENDIAN}
+// Little endian system
 
-${MIPCONFIG_SUPPORT_SNDFILE}
+// No libsndfile support
 
-${MIPCONFIG_SUPPORT_AUDIOFILE}
+// No libaudiofile support
 
-${MIPCONFIG_SUPPORT_QT5}
+// No support for Qt5 output components
 
-${MIPCONFIG_SUPPORT_ALSA}
+#define MIPCONFIG_SUPPORT_ALSA
 
-${MIPCONFIG_SUPPORT_SPEEX}
+// No Speex support
 
-${MIPCONFIG_SUPPORT_LPC}
+#define MIPCONFIG_SUPPORT_GSM
 
-${MIPCONFIG_SUPPORT_AVCODEC}
+#define MIPCONFIG_SUPPORT_LPC
 
-${MIPCONFIG_SUPPORT_INTELIPP}
+// No libavcodec support
 
-${MIPCONFIG_SUPPORT_ESD}
+// No support for Intel IPP library
 
-${MIPCONFIG_SUPPORT_JACK}
+// No support for ESD based output
 
-${MIPCONFIG_SUPPORT_VIDEO4LINUX}
+// No support for JACK audio input/output
 
-${MIPCONFIG_SUPPORT_OSS}
+#define MIPCONFIG_SUPPORT_VIDEO4LINUX
 
-${MIPCONFIG_SUPPORT_SDLAUDIO}
+#define MIPCONFIG_SUPPORT_OSS
 
-${MIPCONFIG_SUPPORT_OPENAL}
+// No support for SDL audio output
 
-${MIPCONFIG_SUPPORT_PORTAUDIO}
+// No OpenAL output support
 
-${MIPCONFIG_SUPPORT_AUDIOTRACK}
+// No PortAudio support
 
-${MIPCONFIG_SUPPORT_AUDIORECORDER}
+// No support for AudioTrack output component
 
-${MIPCONFIG_SUPPORT_WINMM}
+// No support for AudioRecorder input component
 
-${MIPCONFIG_SUPPORT_DIRECTSHOW}
+// No support for Win32 multimedia input/output
 
-${MIPCONFIG_SUPPORT_SILK}
+// No support for DirectShow video input codec
 
-${MIPCONFIG_SUPPORT_OPUS}
+// No support for SILK codec
 
-${MIPCONFIG_SUPPORT_PULSEAUDIO}
+// No Opus support
 
-${MIPCONFIG_SUPPORT_OPENSLESANDROID}
+#define MIPCONFIG_SUPPORT_PULSEAUDIO
+
+// No support for OpenSL ES on Android
 
 #ifdef MIPCONFIG_SUPPORT_AVCODEC
 	#ifndef __STDC_CONSTANT_MACROS

@@ -22,30 +22,13 @@
 
 */
 
-/**
- * \file miprtpgsmdecoder.h
- */
+#ifndef MIPTYPES_H
 
-#ifndef MIPRTPGSMDECODER_H
+#define MIPTYPES_H
 
-#define MIPRTPGSMDECODER_H
+#include <stdint.h>
 
-#include "mipconfig.h"
-#include "miprtppacketdecoder.h"
 
-/** Decodes incoming RTP data into GSM encoded messages.
- *  This class takes MIPRTPReceiveMessages as input and generates 
- *  GSM encoded audio messages.
- */
-class EMIPLIB_IMPORTEXPORT MIPRTPGSMDecoder : public MIPRTPPacketDecoder
-{
-public:
-	MIPRTPGSMDecoder();
-	~MIPRTPGSMDecoder();
-private:
-	bool validatePacket(const jrtplib::RTPPacket *pRTPPack, real_t &timestampUnit, real_t timestampUnitEstimate);
-	void createNewMessages(const jrtplib::RTPPacket *pRTPPack, std::list<MIPMediaMessage *> &messages, std::list<uint32_t> &timestamps);
-};
+typedef long double real_t;
 
-#endif // MIPRTPGSMDECODER_H
-
+#endif // MIPTYPES_H
