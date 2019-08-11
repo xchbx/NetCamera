@@ -4,7 +4,7 @@
 
 #include <mipconfig.h>
 
-#if(defined(MIPCONFIG_SUPPORT_OSS) || defined(MIPCONFIG_SUPPORT_WINMM) || defined(MIPCONFIG_SUPPORT_PORTAUDIO))
+#if(defined(MIPCONFIG_SUPPORT_WINMM) || defined(MIPCONFIG_SUPPORT_PORTAUDIO))
 
 #include <mipcomponentchain.h>
 #include <mipcomponent.h>
@@ -39,17 +39,40 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
+#include "elog.h"
 
 using namespace jrtplib;
+#define LOG_TAG    "FEEDBACK"
+
+/* Private functions ---------------------------------------------------------*/
+static int ElogInit(void) {
+    /* close printf buffer */
+    setbuf(stdout, NULL);
+    /* initialize EasyLogger */
+    elog_init();
+    /* set EasyLogger log format */
+    elog_set_fmt(ELOG_LVL_ASSERT, ELOG_FMT_ALL);
+    elog_set_fmt(ELOG_LVL_ERROR, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
+    elog_set_fmt(ELOG_LVL_WARN, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
+    elog_set_fmt(ELOG_LVL_INFO, ELOG_FMT_LVL | ELOG_FMT_TAG | ELOG_FMT_TIME);
+    elog_set_fmt(ELOG_LVL_DEBUG, ELOG_FMT_ALL & ~ELOG_FMT_FUNC);
+    elog_set_fmt(ELOG_LVL_VERBOSE, ELOG_FMT_ALL & ~ELOG_FMT_FUNC);
+#ifdef ELOG_COLOR_ENABLE
+    elog_set_text_color_enabled(true);
+#endif
+    /* start EasyLogger */
+    elog_start();
+
+    return 0;
+}
 
 void checkError(bool returnValue, const MIPComponent &component)
 {
 	if (returnValue == true)
 		return;
 
-	std::cerr << "An error occured in component: " << component.getComponentName() << std::endl;
-	std::cerr << "Error description: " << component.getErrorString() << std::endl;
-
+	log_e("An error occured in component: %s",component.getComponentName().c_str());
+	log_e("Error description: %s",component.getErrorString().c_str());
 	exit(-1);
 }
 
@@ -58,9 +81,8 @@ void checkError(bool returnValue, const MIPComponentChain &chain)
 	if (returnValue == true)
 		return;
 
-	std::cerr << "An error occured in chain: " << chain.getName() << std::endl;
-	std::cerr << "Error description: " << chain.getErrorString() << std::endl;
-
+	log_e("An error occured in chain: %s",chain.getName().c_str());
+	log_e("Error description: %s",chain.getErrorString().c_str());
 	exit(-1);
 }
 
@@ -72,9 +94,8 @@ void checkError(int status)
 	if (status >= 0)
 		return;
 	
-	std::cerr << "An error occured in the RTP component: " << std::endl;
-	std::cerr << "Error description: " << RTPGetErrorString(status) << std::endl;
-	
+	log_e("An error occured in the RTP component.");
+	log_e("Error description: ",RTPGetErrorString(status).c_str());
 	exit(-1);
 }
 
@@ -107,10 +128,7 @@ int main(void)
 		return -1;
 	}
 #endif // NEED_PA_INIT
-#ifdef WIN32
-	WSADATA dat;
-	WSAStartup(MAKEWORD(2,2),&dat);
-#endif // WIN32
+	ElogInit();
 
 	MIPTime interval(0.020); // We'll use 20 millisecond intervals.
 	MIPAverageTimer timer(interval);

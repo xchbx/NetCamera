@@ -23,7 +23,6 @@
 */
 
 #ifndef MIPCONFIG_H
-
 #define MIPCONFIG_H
 
 #define EMIPLIB_IMPORT 
@@ -35,51 +34,35 @@
 #endif // EMIPLIB_COMPILING
 
 // No GPL components will be compiled
-
 // Little endian system
-
 // No libsndfile support
-
 // No libaudiofile support
-
 // No support for Qt5 output components
 
+#define MIPCONFIG_SUPPORT_PORTAUDIO
 #define MIPCONFIG_SUPPORT_ALSA
 
 // No Speex support
 
 #define MIPCONFIG_SUPPORT_GSM
-
 #define MIPCONFIG_SUPPORT_LPC
 
 // No libavcodec support
-
 // No support for Intel IPP library
-
 // No support for ESD based output
-
 // No support for JACK audio input/output
 
 #define MIPCONFIG_SUPPORT_VIDEO4LINUX
-
 #define MIPCONFIG_SUPPORT_OSS
 
 // No support for SDL audio output
-
 // No OpenAL output support
-
 // No PortAudio support
-
 // No support for AudioTrack output component
-
 // No support for AudioRecorder input component
-
 // No support for Win32 multimedia input/output
-
 // No support for DirectShow video input codec
-
 // No support for SILK codec
-
 // No Opus support
 
 #define MIPCONFIG_SUPPORT_PULSEAUDIO

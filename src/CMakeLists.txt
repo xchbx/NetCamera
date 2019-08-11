@@ -138,4 +138,7 @@ TARGET_LINK_LIBRARIES(NetCamera
                         srtp2.a
                         asound
                         pulse-simple
+                        portaudio
+                        #rt
+                        #jack
                         pthread )
