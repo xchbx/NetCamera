@@ -1,2 +1,2 @@
 #NetCamera
-The NetCamera developed based on webRTC.
+The NetCamera is comming soon.
