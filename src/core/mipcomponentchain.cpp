@@ -32,7 +32,11 @@
 #include <iostream>
 
 #include "mipdebug.h"
+#include "elog.h"
 
+#define LOG_TAG    "CHAIN"
+#define MIPDEBUG
+#define MIPDEBUG1
 //#define MIPDEBUG2
 //#define MIPDEBUG3
 //#define MIPDEBUG4
@@ -57,12 +61,12 @@ MIPComponentChain::MIPComponentChain(const std::string &chainName)
 	
 	if ((status = m_loopMutex.Init()) < 0)
 	{
-		std::cerr << "Error: can't initialize loop mutex (JMutex error code " << status << ")" << std::endl; 
+		log_e("Error: can't initialize loop mutex (JMutex error code %d)",status); 
 		exit(-1);
 	}
 	if ((status = m_chainMutex.Init()) < 0)
 	{
-		std::cerr << "Error: can't initialize component chain mutex (JMutex error code " << status << ")" << std::endl; 
+		log_e("Error: can't initialize component chain mutex(JMutex error code %d)",status); 
 		exit(-1);
 	}
 	m_chainName = chainName;
@@ -77,13 +81,13 @@ MIPComponentChain::~MIPComponentChain()
 
 bool MIPComponentChain::start()
 {
-	if (JThread::IsRunning())
+	if (JThread::IsRunning()) //@@@如果已经在运行，不做其它操作，返回false。
 	{
 		setErrorString(MIPCOMPONENTCHAIN_ERRSTR_THREADRUNNING);
 		return false;
 	}
 	
-	if (m_pInputChainStart == 0)
+	if (m_pInputChainStart == 0) //@@@如果没设置起始节点，不做其它操作，返回false。
 	{
 		setErrorString(MIPCOMPONENTCHAIN_ERRSTR_NOSTARTCOMPONENT);
 		return false;
@@ -185,7 +189,8 @@ bool MIPComponentChain::addConnection(MIPComponent *pPullComponent, MIPComponent
 		setErrorString(MIPCOMPONENTCHAIN_ERRSTR_COMPONENTNULL);
 		return false;
 	}
-	
+
+	//@@@那是将两个MIPComponent变量组合成一个MIPConnection变量，再放入m_inputConnections链表内
 	m_inputConnections.push_back(MIPConnection(pPullComponent, pPushComponent, feedback, allowedMessageTypes, allowedSubmessageTypes));
 	return true;
 }
@@ -421,21 +426,24 @@ bool MIPComponentChain::orderConnections(std::list<MIPConnection> &orderedConnec
 	std::list<MIPConnection>::iterator it;
 	std::list<MIPComponent *> componentLayer;
 
+	//@@@ 设置加入Chain的所有模块的标志为false；
+	//@@@ 确保m_inputConnections链表内所有的MIPConnection在处理前的处理标志变量值都是“未处理”，也就是将mark置为false。
 	for (it = m_inputConnections.begin() ; it != m_inputConnections.end() ; it++)
 		(*it).setMark(false);
 
-#ifdef MIPDEBUG3
+#ifdef MIPDEBUG
 	int layerNumber = 0;
-	std::cout << "Start of connection ordering" << std::endl;
-#endif // MIPDEBUG3
+	log_i("Start of connection ordering");
+#endif // MIPDEBUG
 	
+	//@@@ 将起始节点放入这个链表内;也就是说，进入循环前链表的初始状态是有一个元素在链表内;
 	componentLayer.push_back(m_pInputChainStart);
-	while (!componentLayer.empty())
+	while (!componentLayer.empty())//@@@结束这个while循环的条件是componentLayer链表为空;
 	{
-#ifdef MIPDEBUG3
+#ifdef MIPDEBUG
 		layerNumber++;
-		std::cout << "Layer " << layerNumber << ":" << std::endl;
-#endif // MIPDEBUG3
+		log_i("Layer : %d componentLayer current size = %d",layerNumber,componentLayer.size() );
+#endif // MIPDEBUG
 		std::list<MIPComponent *> newLayer;
 		std::list<MIPComponent *>::const_iterator compit;
 		
@@ -445,7 +453,8 @@ bool MIPComponentChain::orderConnections(std::list<MIPConnection> &orderedConnec
 			{
 				if (!(*it).isMarked()) // check that we haven't processed this connection yet
 				{
-					if ((*it).getPullComponent() == (*compit)) // check that this connection starts from the component under consideration
+					//@@@ check that this connection starts from the component under consideration
+					if ((*it).getPullComponent() == (*compit)) 
 					{
 						// mark the connection as processed
 						(*it).setMark(true);
@@ -460,18 +469,26 @@ bool MIPComponentChain::orderConnections(std::list<MIPConnection> &orderedConnec
 						bool found = false;
 						MIPComponent *component = (*it).getPushComponent();
 						std::list<MIPComponent *>::const_iterator compit2;
-#ifdef MIPDEBUG3
-						std::cout << "   " << (*it).getPullComponent()->getComponentName() << " (" << (void *)((*it).getPullComponent()) << ") -> " << (*it).getPushComponent()->getComponentName() << " (" << (void*)((*it).getPushComponent()) << ")" <<std::endl;
-#endif // MIPDEBUG3
+#ifdef MIPDEBUG
+						log_i("\t %s (%p) -> %s (%p)",(*it).getPullComponent()->getComponentName().c_str(),(void *)((*it).getPullComponent()) 
+													 ,(*it).getPushComponent()->getComponentName().c_str(),(void*)((*it).getPushComponent()));
+#endif // MIPDEBUG
 
 						for (compit2 = newLayer.begin() ; !found && compit2 != newLayer.end() ; compit2++)
 						{
 							if ((*compit2) == component)
+							{
+								//log_i("%s found",component->getComponentName().c_str());
 								found = true;
+							}
 						}
 
 						if (!found)
+						{
+							//log_i("%s Not found",component->getComponentName().c_str());
 							newLayer.push_back(component);
+						}
+							
 					}
 				}
 			}
@@ -480,9 +497,9 @@ bool MIPComponentChain::orderConnections(std::list<MIPConnection> &orderedConnec
 		componentLayer = newLayer;
 	}
 	
-#ifdef MIPDEBUG3
-	std::cout << "End of connection ordering" << std::endl;
-#endif // MIPDEBUG3
+#ifdef MIPDEBUG
+	log_i("End of connection ordering");
+#endif // MIPDEBUG
 
 	for (it = m_inputConnections.begin() ; it != m_inputConnections.end() ; it++)
 	{
